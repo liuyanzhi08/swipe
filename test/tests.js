@@ -1,13 +1,16 @@
 define(['../src/swipe.js'], function(Swipe) {
   describe('Swipe', function(){
-    var container, swipe, wrap, slides, containerWidth, containerHeight, wrapWidth;
+    var container, swipe, wrap, slides, containerWidth, containerHeight, wrapWidth, navItems;
     beforeEach(function() {
       container = document.getElementById('mySwipe');
+      swipe && swipe.kill();
       swipe = new Swipe(container);
       wrap = swipe.wrap;
       slides = swipe.slides;
       containerWidth = container.offsetWidth;
       wrapWidth = wrap.offsetWidth; 
+      swipe.set('nav', 'on');
+      navItems = container.querySelector('.swipe-nav').children;
 
       // For demo
       // var submit = document.getElementById('index_submit');
@@ -42,37 +45,41 @@ define(['../src/swipe.js'], function(Swipe) {
 
     })
 
-    describe('slideTo(index)', function(done){
+    describe('slideTo(index)', function(){
       it('slideTo(current index), it should do nothing', function(){
         var oldTransform = swipe.wrap.style.webkitTransform;
-        swipe.slideTo(swipe.index);
-        var newTransform = swipe.wrap.style.webkitTransform;
-        newTransform.should.equal(oldTransform) ;
+        swipe.slideTo(swipe.index, function() {
+          var newTransform = swipe.wrap.style.webkitTransform;
+          newTransform.should.equal(oldTransform) ;
+        });
       })
 
       it('slideTo(index between min and max, it should slideTo(index))', function(){
         var random = Math.floor(Math.random() * swipe.length);
-        swipe.slideTo(random, done);
-        var offset = swipe.width * (0 - random);
-        var transform = swipe.wrap.style.webkitTransform;
-        if (transform) transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+        swipe.slideTo(random, function() {
+          var offset = swipe.width * (0 - random);
+          var transform = swipe.wrap.style.webkitTransform;
+          if (transform) transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+        });
       })
 
-      it('slideTo(index bigger than max), it should slideTo(max)', function(done){
-        swipe.slideTo(9999, done);
-        var offset = swipe.width * (0 - (swipe.length - 1));
-        var transform = swipe.wrap.style.webkitTransform;
-        transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+      it('slideTo(index bigger than max), it should slideTo(max)', function(){
+        swipe.slideTo(9999, function() {
+          var offset = swipe.width * (0 - (swipe.length - 1));
+          var transform = swipe.wrap.style.webkitTransform;
+          transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+        });
       })
 
-      it('slideTo(index bigger than min), it should slideTo(min)', function(done){
-        swipe.slideTo(-1111, done);
-        var transform = swipe.wrap.style.webkitTransform;
-        transform.should.equal('translate3d(0px, 0px, 0px)') ;
+      it('slideTo(index bigger than min), it should slideTo(min)', function(){
+        swipe.slideTo(-1111, function() {
+          var transform = swipe.wrap.style.webkitTransform;
+         transform.should.equal('translate3d(0px, 0px, 0px)') ;
+        });
       })
     })
 
-    describe('next()', function(done){
+    describe('next()', function(){
       it('when current slide is the last one, it should slideTo(0)', function(){
         swipe.slideTo(swipe.length - 1);
         swipe.stop().next();
@@ -88,20 +95,41 @@ define(['../src/swipe.js'], function(Swipe) {
       })
     })
 
-    describe('dots', function(){
-      it('something', function(){
+    describe('nav', function(){
+      it('size of nav items should be length of slides', function(){
+        navItems.length.should.equal(swipe.length);
+      })
+
+      it('can switch between show and hide', function(){
+        swipe.set('nav', 'on');
+        swipe.nav.style.display.should.equal('block');
+        swipe.set('nav', 'off');
+        swipe.nav.style.display.should.equal('none');
+      })
+
+      it('should indicate the current index', function(){
+        swipe.nav.children[swipe.index].classList
+                                       .contains('swipe-nav-item-on')
+                                       .should.equal(true);
+
+        swipe.slideTo(5, function() {
+          swipe.nav.children[swipe.index].classList
+                                       .contains('swipe-nav-item-on')
+                                       .should.equal(true);
+        });
+        
       })
     })
 
-    describe('resize', function(){
-      it('something', function(){
-      })
-    })
+    // describe('resize', function(){
+    //   it('something', function(){
+    //   })
+    // })
 
-     describe('touch', function(){
-      it('something', function(){
-      })
-    })
+    //  describe('touch', function(){
+    //   it('something', function(){
+    //   })
+    // })
   })
 
 })

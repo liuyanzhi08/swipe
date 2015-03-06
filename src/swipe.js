@@ -7,6 +7,11 @@ define(function() {
     this.width = this.container.offsetWidth;
     this.speed = 300;
     this.index = 0;
+    this.classes = {
+      nav: 'swipe-nav',
+      navItem: 'swipe-nav-item',
+      navOn: 'swipe-nav-item-on'
+    };
 
     this.setup(); 
     this.bind();
@@ -48,6 +53,7 @@ define(function() {
     var style = this.wrap.style;
     style.webkitTransitionDuration = this.speed + 'ms';
     style.webkitTransform = 'translate3D(' + offset + 'px,0,0)';
+
   }
 
   Swipe.prototype.stop = function() {
@@ -58,7 +64,7 @@ define(function() {
 
   Swipe.prototype.bind = function() {
     var that = this;
-    var events = {
+    this.events = {
       handleEvent: function(e) {
         switch (e.type) {
            case 'touchstart': ; break;
@@ -66,13 +72,15 @@ define(function() {
            case 'touchend': ; break;
            case 'transitionend': 
              that.sliding = false;
+             that.nav && that.setNav(); // Set nav
+
              that.slideCallback && that.slideCallback();
              break;
            case 'resize': ; break;
          }
       }
     }
-    this.container.addEventListener('transitionend', events);
+    this.container.addEventListener('transitionend', this.events);
   }
 
   Swipe.prototype.next = function(callback) {
@@ -87,6 +95,44 @@ define(function() {
     this.slideTo(index, callback);
   }
 
+  Swipe.prototype.set = function(key, value) {
+    switch (key) {
+      case 'nav':
+        if (!this.nav) {
+          this.createNav();
+        } 
+        if (value == 'on') {
+          this.nav.style.display = 'block';
+          this.setNav();
+        } else {
+          this.nav.style.display = 'none';
+        }
+        
+        break;
+    }
+  }
 
+  Swipe.prototype.createNav = function() {
+    this.nav = document.createElement('div');
+    this.nav.className = this.classes.nav;
+    for (var i = 0; i < this.length; i++) {
+      var navItem = document.createElement('span');
+      navItem.className = this.classes.navItem;
+      this.nav.appendChild(navItem);
+    }
+    this.container.appendChild(this.nav);
+  }
+
+  Swipe.prototype.setNav = function() {
+    for (var i = 0; i < this.length; i++) {
+      this.nav.children[i].classList.remove(this.classes.navOn);
+    }
+    this.nav.children[this.index].classList.add(this.classes.navOn);
+  }
+
+  Swipe.prototype.kill = function() {
+    this.container.removeChild(this.nav);
+    this.container.removeEventListener('transitionend', this.events);
+  }
   return Swipe;
 })
