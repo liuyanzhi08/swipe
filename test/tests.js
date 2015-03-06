@@ -7,7 +7,7 @@ define(['../src/swipe.js'], function(Swipe) {
 	  	wrap = swipe.wrap;
 	  	slides = swipe.slides;
 	  	containerWidth = container.offsetWidth;
-	    wrapWidth = wrap.offsetWidth;
+	    wrapWidth = wrap.offsetWidth; 
 	  })
 
 	  describe('setup()', function(){

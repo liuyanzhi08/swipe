@@ -7,7 +7,7 @@ define(function() {
 		this.width = this.container.offsetWidth;
 		this.speed = 300;
 
-		this.setup();
+		this.setup(); 
 		this.bind();
 	}
 
