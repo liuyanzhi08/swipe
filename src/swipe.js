@@ -40,6 +40,7 @@ define(function() {
   Swipe.prototype.slideTo = function(index, callback, queue) {
     if (index > this.length - 1) index = this.length - 1;
     if (index < 0) index = 0;
+    if (typeof callback != 'function') { callback = null; queue = callback };
 
     // Not sliding and not enqueue, so do nothing
     if (this.sliding && !queue) return;
@@ -73,8 +74,6 @@ define(function() {
   }
 
   Swipe.prototype.stop = function() {
-    this.sliding = false;
-    this.slideCallback = null;
     return this;
   }
 
@@ -106,16 +105,39 @@ define(function() {
      nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
   }
 
-  Swipe.prototype.next = function(callback) {
-    var index = 0;
-    if (this.index != this.length - 1) index++;
-    this.slideTo(index, callback);
+  Swipe.prototype.next = function(callback, queue) {
+    if (typeof callback != 'function') queue = callback;
+
+    var index = this.index;
+    if (queue) {
+      var lastSlide = this.queue[this.queue.length - 1];
+      if (lastSlide) index = lastSlide.index;
+    }
+
+    if (index >= this.length - 1) {
+      index = 0;
+    } else {
+      index = index + 1;
+    }
+
+    this.slideTo(index, callback, queue);
   }
 
-  Swipe.prototype.prev = function(callback) {
-    var index = this.length - 1;
-    if (this.index != 0) index--;
-    this.slideTo(index, callback);
+  Swipe.prototype.prev = function(callback, queue) {
+    if (typeof callback != 'function') queue = callback;
+
+    var index = this.index;
+    if (queue) {
+      var lastSlide = this.queue[this.queue.length - 1];
+      if (lastSlide) index = lastSlide.index;
+    }
+
+    if (index <= 0) {
+      index = this.length - 1;
+    } else {
+      index = index - 1;
+    }
+    this.slideTo(index, callback, queue);
   }
 
   Swipe.prototype.set = function(key, value) {

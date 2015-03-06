@@ -97,55 +97,75 @@ define(['../src/swipe.js'], function(Swipe) {
     // })
 
 
-    describe('slideTo(index)', function(){
-      it('slideTo(current index), it should do nothing', function() {
-        var oldTransform = swipe.wrap.style.webkitTransform;
-        swipe.slideTo(swipe.index, function() {
-          var newTransform = swipe.wrap.style.webkitTransform;
-          oldTransform && newTransform.should.equal(oldTransform);
-        }, true);
-      })
+    // describe('slideTo(index)', function(){
+    //   it('slideTo(current index), it should do nothing', function() {
+    //     var oldTransform = swipe.wrap.style.webkitTransform;
+    //     swipe.slideTo(swipe.index, function() {
+    //       var newTransform = swipe.wrap.style.webkitTransform;
+    //       oldTransform && newTransform.should.equal(oldTransform);
+    //     }, true);
+    //   })
 
-      it('slideTo(index bigger than max), it should slideTo(max)', function() {
-        swipe.slideTo(9999, function() {
-          var offset = swipe.width * (0 - (swipe.length - 1));
-          var transform = swipe.wrap.style.webkitTransform;
-          transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
-        }, true);
-      })
+    //   it('slideTo(index bigger than max), it should slideTo(max)', function() {
+    //     swipe.slideTo(9999, function() {
+    //       var offset = swipe.width * (0 - (swipe.length - 1));
+    //       var transform = swipe.wrap.style.webkitTransform;
+    //       transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+    //     }, true);
+    //   })
 
-      it('slideTo(index bigger than min), it should slideTo(min)', function() {
-        swipe.slideTo(-1111, function() {
-          var transform = swipe.wrap.style.webkitTransform;
-          transform.should.equal('translate3d(0px, 0px, 0px)') ;
-        }, true);
-      })
+    //   it('slideTo(index bigger than min), it should slideTo(min)', function() {
+    //     swipe.slideTo(-1111, function() {
+    //       var transform = swipe.wrap.style.webkitTransform;
+    //       transform.should.equal('translate3d(0px, 0px, 0px)') ;
+    //     }, true);
+    //   })
 
-      it('slideTo(index between min and max, it should slideTo(index))', function() {
-        var random = Math.floor(Math.random() * swipe.length);
-        swipe.slideTo(random, function() {
-          var offset = swipe.width * (0 - random);
-          var transform = swipe.wrap.style.webkitTransform;
-          transform && transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+    //   it('slideTo(index between min and max, it should slideTo(index))', function() {
+    //     var random = Math.floor(Math.random() * swipe.length);
+    //     swipe.slideTo(random, function() {
+    //       var offset = swipe.width * (0 - random);
+    //       var transform = swipe.wrap.style.webkitTransform;
+    //       transform && transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+    //     }, true);
+    //   })
+    // })
+
+    // describe('next()', function(){
+    //   it('shoud set the index correctly', function() {
+    //     swipe.slideTo(0, true);
+    //     swipe.next(function() {
+    //       swipe.index.should.equal(1);
+    //     }, true);
+    //     swipe.next(function() {
+    //       swipe.index.should.equal(2);
+    //     }, true);
+    //     swipe.next(function() {
+    //       swipe.index.should.equal(3);
+    //     }, true);
+    //     swipe.next(function() {
+    //       swipe.index.should.equal(0);
+    //     }, true);
+    //   })
+    // })
+
+    describe('prev()', function(){
+      it('shoud set the index correctly', function() {
+        swipe.slideTo(0, true);
+        swipe.prev(function() {
+          swipe.index.should.equal(3);
+        }, true);
+        swipe.prev(function() {
+          swipe.index.should.equal(2);
+        }, true);
+        swipe.prev(function() {
+          swipe.index.should.equal(1);
+        }, true);
+        swipe.prev(function() {
+          swipe.index.should.equal(0);
         }, true);
       })
     })
-
-    // describe('next()', function(){
-    //   it('when current slide is the last one, it should slideTo(0)', function() {
-    //     swipe.slideTo(swipe.length - 1);
-    //     swipe.stop().next();
-    //     swipe.index.should.equal(0);
-    //   })
-    // })
-
-    // describe('prev()', function(){
-    //   it('when current slide is the first one, it should slideTo(max)', function() {
-    //     swipe.slideTo(0);
-    //     swipe.stop().prev();
-    //     swipe.index.should.equal(swipe.length - 1);
-    //   })
-    // })
 
     // describe('nav', function(){
     //   it('size of nav items should be length of slides', function() {
@@ -173,15 +193,15 @@ define(['../src/swipe.js'], function(Swipe) {
     //   })
     // })
 
-    // describe('resize', function() { 
-    //   it('something', function() {
-    //   })
-    // })
+    describe('resize', function() { 
+      it('something', function() {
+      })
+    })
 
-    //  describe('touch', function() {
-    //   it('something', function() {
-    //   })
-    // })
+     describe('touch', function() {
+      it('something', function() {
+      })
+    })
   })
 
 })
