@@ -33,7 +33,7 @@ define(['../src/swipe.js'], function(Swipe) {
 	    	swipe.slideTo(random, done);
 	    	var offset = swipe.width * (0 - random);
     		var transform = swipe.wrap.style.webkitTransform;
-			transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+				transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
 
 	    	// For demo
     		var submit = document.getElementById('index_submit');
@@ -54,13 +54,13 @@ define(['../src/swipe.js'], function(Swipe) {
 	    	swipe.stop().slideTo(9999, done);
 	    	var offset = swipe.width * (0 - (swipe.length - 1));
     		var transform = swipe.wrap.style.webkitTransform;
-			transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
+				transform.should.equal('translate3d(' + offset + 'px, 0px, 0px)') ;
 	    })
 
 	    it('slideTo(index bigger than min), it should slideTo(min)', function(done){
 	    	swipe.stop().slideTo(-1111, done);
 	    	var transform = swipe.wrap.style.webkitTransform;
-			transform.should.equal('translate3d(0px, 0px, 0px)') ;
+				transform.should.equal('translate3d(0px, 0px, 0px)') ;
 	    })
 	  })
 

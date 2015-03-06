@@ -6,7 +6,6 @@ define(function() {
 		this.length = this.slides.length;
 		this.width = this.container.offsetWidth;
 		this.speed = 300;
-		this.transitionId = 0;
 
 		this.setup();
 		this.bind();
@@ -36,7 +35,6 @@ define(function() {
 	}
 
 	Swipe.prototype.slideTo = function(index, callback) {
-		console.log(this.transitionId);
 		if (this.sliding) return;
 		if (index > this.length - 1) index = this.length - 1;
 		if (index < 0) index = 0;
@@ -46,9 +44,8 @@ define(function() {
 
 		var offset = this.width * (0 - index);
 		var style = this.wrap.style;
-        style.webkitTransitionDuration = this.speed + 'ms';
-
-	    style.webkitTransform = 'translate3D(' + offset + 'px,0,0)';
+		style.webkitTransitionDuration = this.speed + 'ms';
+		style.webkitTransform = 'translate3D(' + offset + 'px,0,0)';
 	}
 
 	Swipe.prototype.stop = function() {
@@ -67,7 +64,6 @@ define(function() {
 			        case 'touchend': ; break;
 			        case 'transitionend': 
 			        	that.sliding = false;
-			        	that.transitionId++;
 			        	that.slideCallback && that.slideCallback();
 			        	break;
 			        case 'resize': ; break;
