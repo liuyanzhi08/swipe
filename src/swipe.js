@@ -12,6 +12,7 @@ define(function() {
       navItem: 'swipe-nav-item',
       navOn: 'swipe-nav-item-on'
     };
+    this.queue = [];
 
     this.setup(); 
     this.bind();
@@ -35,25 +36,33 @@ define(function() {
     }
   }
 
-  Swipe.prototype.slideTo = function(index) {
-    var offset = this.width * (0 - index);
-    this.wrap.style.left = offset + 'px';
-  }
+  Swipe.prototype.slideTo = function(index, callback, queue) {
+    // Not sliding and not enqueue, so do nothing
+    if (this.sliding && !queue) return;
 
-  Swipe.prototype.slideTo = function(index, callback) {
-    if (this.sliding || this.index == index) return;
+    // Sliding, so enqueque
+    if (this.sliding && queue) {
+      this.queue.push({
+        index: index,
+        callback: callback
+      });
+      return;
+    }
+
+    // Not sliding, so enforce slide
+    if (index == this.index) return
     if (index > this.length - 1) index = this.length - 1;
     if (index < 0) index = 0;
 
     this.sliding = true;
     this.index = index;
     this.slideCallback = callback;
+    
 
     var offset = this.width * (0 - index);
     var style = this.wrap.style;
     style.webkitTransitionDuration = this.speed + 'ms';
     style.webkitTransform = 'translate3D(' + offset + 'px,0,0)';
-
   }
 
   Swipe.prototype.stop = function() {
@@ -75,6 +84,9 @@ define(function() {
              that.nav && that.setNav(); // Set nav
 
              that.slideCallback && that.slideCallback();
+             // Enforce the next slide in queue
+             var nextSlide = that.queue.shift();
+             nextSlide && that.slideTo(nextSlide.index, nextSlide.callback);
              break;
            case 'resize': ; break;
          }
