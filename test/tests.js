@@ -92,6 +92,16 @@ define(['../src/swipe.js'], function(Swipe) {
 	    it('something', function(){
 	    })
 	  })
+
+    describe('resize', function(){
+      it('something', function(){
+      })
+    })
+
+     describe('touch', function(){
+      it('something', function(){
+      })
+    })
 	})
 
 })
