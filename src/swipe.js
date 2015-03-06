@@ -6,6 +6,7 @@ define(function() {
 		this.length = this.slides.length;
 		this.width = this.container.offsetWidth;
 		this.speed = 300;
+    this.index = 0;
 
 		this.setup(); 
 		this.bind();
@@ -35,11 +36,12 @@ define(function() {
 	}
 
 	Swipe.prototype.slideTo = function(index, callback) {
-		if (this.sliding) return;
+		if (this.sliding || this.index == index) return;
 		if (index > this.length - 1) index = this.length - 1;
 		if (index < 0) index = 0;
 
 		this.sliding = true;
+    this.index = index;
 		this.slideCallback = callback;
 
 		var offset = this.width * (0 - index);
@@ -73,7 +75,17 @@ define(function() {
 		this.container.addEventListener('transitionend', events);
 	}
 
-	
+	Swipe.prototype.next = function(callback) {
+    var index = 0;
+    if (this.index != this.length - 1) index++;
+    this.slideTo(index, callback);
+  }
+
+  Swipe.prototype.prev = function(callback) {
+    var index = this.length - 1;
+    if (this.index != 0) index--;
+    this.slideTo(index, callback);
+  }
 
 
 	return Swipe;
