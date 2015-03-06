@@ -5,6 +5,7 @@ define(function() {
     this.slides = this.wrap.children;
     this.length = this.slides.length;
     this.width = this.container.offsetWidth;
+
     this.speed = 300;
     this.index = 0;
     this.classes = {
@@ -37,27 +38,33 @@ define(function() {
   }
 
   Swipe.prototype.slideTo = function(index, callback, queue) {
+    if (index > this.length - 1) index = this.length - 1;
+    if (index < 0) index = 0;
+
     // Not sliding and not enqueue, so do nothing
     if (this.sliding && !queue) return;
 
     // Sliding, so enqueque
     if (this.sliding && queue) {
-      this.queue.push({
+      var slide = {
         index: index,
         callback: callback
-      });
+      }
+      this.queue.push(slide);
       return;
     }
 
     // Not sliding, so enforce slide
-    if (index == this.index) return
-    if (index > this.length - 1) index = this.length - 1;
-    if (index < 0) index = 0;
+    if (index == this.index) {
+      // Current index, no need to transition, immediately trigger callback
+      callback && callback();
+      this.dequeue();
+      return;
+    }
 
     this.sliding = true;
     this.index = index;
     this.slideCallback = callback;
-    
 
     var offset = this.width * (0 - index);
     var style = this.wrap.style;
@@ -85,14 +92,18 @@ define(function() {
 
              that.slideCallback && that.slideCallback();
              // Enforce the next slide in queue
-             var nextSlide = that.queue.shift();
-             nextSlide && that.slideTo(nextSlide.index, nextSlide.callback);
+             that.dequeue();
              break;
            case 'resize': ; break;
          }
       }
     }
     this.container.addEventListener('transitionend', this.events);
+  }
+
+  Swipe.prototype.dequeue = function() {
+     var nextSlide = this.queue.shift();
+     nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
   }
 
   Swipe.prototype.next = function(callback) {
