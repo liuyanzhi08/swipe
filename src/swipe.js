@@ -40,7 +40,7 @@ define(function() {
   Swipe.prototype.slideTo = function(index, callback, queue) {
     if (index > this.length - 1) index = this.length - 1;
     if (index < 0) index = 0;
-    if (typeof callback != 'function') { callback = null; queue = callback };
+    if (typeof callback != 'function') { queue = callback; callback = null };
 
     // Not sliding and not enqueue, so do nothing
     if (this.sliding && !queue) return;
