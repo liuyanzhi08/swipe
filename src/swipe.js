@@ -65,7 +65,7 @@ define(function() {
 
     this.sliding = true;
     this.index = index;
-    this.slideCallback = callback;
+    this.callback = callback;
 
     var offset = this.width * (0 - index);
     var style = this.wrap.style;
@@ -89,7 +89,7 @@ define(function() {
              that.sliding = false;
              that.nav && that.setNav(); // Set nav
 
-             that.slideCallback && that.slideCallback();
+             that.callback && that.callback();
              // Enforce the next slide in queue
              that.dequeue();
              break;
