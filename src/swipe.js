@@ -38,6 +38,7 @@ define(function() {
   }
 
   Swipe.prototype.slideTo = function(index, callback, queue) {
+    // Handling muti-arguments
     if (index > this.length - 1) index = this.length - 1;
     if (index < 0) index = 0;
     if (typeof callback != 'function') { queue = callback; callback = null };
@@ -106,6 +107,7 @@ define(function() {
   }
 
   Swipe.prototype.next = function(callback, queue) {
+    // Handling muti-arguments
     if (typeof callback != 'function') { queue = callback; callback = null };
 
     var index = this.index;
@@ -124,6 +126,7 @@ define(function() {
   }
 
   Swipe.prototype.prev = function(callback, queue) {
+    // Handling muti-arguments
     if (typeof callback != 'function') { queue = callback; callback = null };
 
     var index = this.index;
