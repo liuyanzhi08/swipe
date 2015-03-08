@@ -178,10 +178,10 @@ define(['../src/swipe.js'], function(Swipe) {
       })
 
       it('can switch between show and hide', function() {
-        swipe.set('nav', 'on');
-        swipe.nav.style.display.should.equal('block');
         swipe.set('nav', 'off');
         swipe.nav.style.display.should.equal('none');
+        swipe.set('nav', 'on');
+        swipe.nav.style.display.should.equal('block');
       })
 
       it('should indicate the current index', function() {

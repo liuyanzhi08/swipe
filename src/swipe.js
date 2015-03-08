@@ -70,7 +70,7 @@ define(function() {
     var offset = this.width * (0 - index);
     var style = this.wrap.style;
     style.webkitTransitionDuration = this.speed + 'ms';
-    style.webkitTransform = 'translate3D(' + offset + 'px,0,0)';
+    style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
   }
 
   Swipe.prototype.stop = function() {
