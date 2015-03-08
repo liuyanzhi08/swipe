@@ -106,7 +106,7 @@ define(function() {
   }
 
   Swipe.prototype.next = function(callback, queue) {
-    if (typeof callback != 'function') queue = callback;
+    if (typeof callback != 'function') { queue = callback; callback = null };
 
     var index = this.index;
     if (queue) {
@@ -124,7 +124,7 @@ define(function() {
   }
 
   Swipe.prototype.prev = function(callback, queue) {
-    if (typeof callback != 'function') queue = callback;
+    if (typeof callback != 'function') { queue = callback; callback = null };
 
     var index = this.index;
     if (queue) {
