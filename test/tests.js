@@ -203,7 +203,7 @@ define(['../src/swipe.js'], function(Swipe) {
       })
     })
 
-     describe('touch', function() {
+    describe('touch', function() {
       it('something', function() {
       })
     })
