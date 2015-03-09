@@ -97,7 +97,7 @@ define(['../src/swipe.js'], function(Swipe) {
     })
 
 
-    describe('slideTo(index)', function(){
+    describe('slideTo()', function(){
       it('slideTo(current index), it should do nothing', function() {
         var oldTransform = swipe.wrap.style.webkitTransform;
         var oldIdex = swipe.index;
@@ -191,21 +191,70 @@ define(['../src/swipe.js'], function(Swipe) {
 
         swipe.slideTo(5, function() {
           swipe.nav.children[3].classList
-                                       .contains('swipe-nav-item-on')
-                                       .should.equal(true);
+                               .contains('swipe-nav-item-on')
+                               .should.equal(true);
         }, true);
         
       })
     })
 
     describe('resize', function() { 
-      it('something', function() {
+      before(function() {
+        window.resizeBy(-2, -2);
+      })
+      after(function() {
+        window.resizeBy(2, 2);
+      })
+      it('should reset the width and height of the slides as the same with the container(runs only in IE))', function(){
+        containerWidth = container.offsetWidth;
+        for (var i = 0, len = slides.length; i < len; i++) {
+          slides[i].offsetWidth.should.equal(containerWidth);
+        }
+      })
+
+      it('should reset the width of wrap as the sum of all slides(runs only in IE)', function() {
+        wrapWidth = wrap.offsetWidth;
+        var sum = 0;
+        for (var i = 0, len = slides.length; i < len; i++) {
+          sum += slides[i].offsetWidth;
+        }
+        wrapWidth.should.equal(sum);
       })
     })
 
-    describe('touch', function() {
-      it('something', function() {
+    describe('continuous', function() {
+      it('when it is the last slide, next() should animate to the (length+1)th slide', function() {
+        swipe.set('continuous', true);
+        var offset = swipe.width * (0 - swipe.length);
+        var style = swipe.wrap.style;
+
+        swipe.slideTo(swipe.length - 1, true);
+        swipe.next(function() {
+          style.webkitTransform.should.equal('translate3d(' + offset + 'px, 0px, 0px)');
+        }, true);
+        swipe.next(function() {
+          offset = swipe.width * (0 - 1);
+          style.webkitTransform.should.equal('translate3d(' + offset + 'px, 0px, 0px)');
+        }, true);
       })
+
+      // it('when it is the first slide, prev() should animate to the (length+1)th slide', function() {
+      //   swipe.set('continuous', true);
+      //   var offset = swipe.width * (0 - swipe.length);
+      //   var style = swipe.wrap.style;
+
+      //   swipe.slideTo(swipe.length - 1, true);
+      //   swipe.next(function() {
+      //     style.webkitTransform.should.equal('translate3d(' + offset + 'px, 0px, 0px)');
+      //   }, true);
+      //   swipe.next(function() {
+      //     offset = swipe.width * (0 - 1);
+      //     style.webkitTransform.should.equal('translate3d(' + offset + 'px, 0px, 0px)');
+      //   }, true);
+      // })
+    })
+
+    describe('touch', function() {
     })
   })
 

@@ -76,36 +76,22 @@ define(function() {
 		style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
 	}
 
-	Swipe.prototype.stop = function() {
-		return this;
-	}
+	Swipe.prototype.prev = function(callback, queue) {
+		// Handling muti-arguments
+		if (typeof callback != 'function') { queue = callback; callback = null };
 
-	Swipe.prototype.bind = function() {
-		var that = this;
-		this.events = {
-			handleEvent: function(e) {
-				switch (e.type) {
-					 case 'touchstart': ; break;
-					 case 'touchmove': ; break;
-					 case 'touchend': ; break;
-					 case 'transitionend': 
-						 that.sliding = false;
-						 that.nav && that.setNav(); // Set nav
-
-						 that.callback && that.callback();
-						 // Enforce the next slide in queue
-						 that.dequeue();
-						 break;
-					 case 'resize': ; break;
-				 }
-			}
+		var index = this.index;
+		if (queue) {
+			var lastSlide = this.queue[this.queue.length - 1];
+			if (lastSlide) index = lastSlide.index;
 		}
-		this.container.addEventListener('transitionend', this.events);
-	}
 
-	Swipe.prototype.dequeue = function() {
-		 var nextSlide = this.queue.shift();
-		 nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
+		if (index <= 0) {
+			index = this.length - 1;
+		} else {
+			index = index - 1;
+		}
+		this.slideTo(index, callback, queue);
 	}
 
 	Swipe.prototype.next = function(callback, queue) {
@@ -127,22 +113,41 @@ define(function() {
 		this.slideTo(index, callback, queue);
 	}
 
-	Swipe.prototype.prev = function(callback, queue) {
-		// Handling muti-arguments
-		if (typeof callback != 'function') { queue = callback; callback = null };
+	Swipe.prototype.stop = function() {
+		return this;
+	}
 
-		var index = this.index;
-		if (queue) {
-			var lastSlide = this.queue[this.queue.length - 1];
-			if (lastSlide) index = lastSlide.index;
-		}
+	Swipe.prototype.bind = function() {
+		var that = this;
+		this.events = {
+			handleEvent: function(e) {
+				switch (e.type) {
+						case 'touchstart': ; break;
+						case 'touchmove': ; break;
+						case 'touchend': ; break;
+						case 'transitionend': 
+							that.sliding = false;
+							that.nav && that.setNav(); // Set nav
 
-		if (index <= 0) {
-			index = this.length - 1;
-		} else {
-			index = index - 1;
+							that.callback && that.callback();
+							// Enforce the next slide in queue
+							that.dequeue();
+							break;
+					  case 'resize':
+					  	that.width = that.container.offsetWidth;
+					  	console.log(that.width);
+					  	that.setup();
+						break;
+				 }
+			}
 		}
-		this.slideTo(index, callback, queue);
+		this.container.addEventListener('transitionend', this.events);
+		window.addEventListener('resize', this.events);
+	}
+
+	Swipe.prototype.dequeue = function() {
+		 var nextSlide = this.queue.shift();
+		 nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
 	}
 
 	Swipe.prototype.set = function(key, value) {
@@ -157,7 +162,9 @@ define(function() {
 				} else {
 					this.nav.style.display = 'none';
 				}
-				
+				break;
+			case 'continuous':
+				this.continuous = true;
 				break;
 		}
 	}
