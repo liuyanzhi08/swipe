@@ -8,6 +8,7 @@ define(function() {
 
 		this.speed = 300;
 		this.index = 0;
+		this.offset = 0;
 		this.classes = {
 			nav: 'swipe-nav',
 			navItem: 'swipe-nav-item',
@@ -26,8 +27,9 @@ define(function() {
 
 		// Set wrap
 		this.wrap.style.position = 'relative';
+		this.wrap.style.overflow = 'visible';
 		this.wrap.style.height = 'auto';
-		this.wrap.style.width = this.width * this.length + 'px';
+		this.wrap.style.width = '999999999999999px';
 
 		// Set slides   
 		for(var i = 0; i < this.length; i++) {
@@ -36,14 +38,23 @@ define(function() {
 			slide.style.float = 'left';
 			slide.style.height = 'auto';
 			this.slides[i].style.width = this.width + 'px';
+			this.slides[i].offset = i * this.width;
 		}
 	}
 
-	Swipe.prototype.slideTo = function(index, callback, queue) {
+	Swipe.prototype.slideTo = function(index, callback, direction, queue) {
 		// Handling muti-arguments
 		if (index > this.length - 1) index = this.length - 1;
 		if (index < 0) index = 0;
-		if (typeof callback != 'function') { queue = callback; callback = null };
+		if (typeof callback != 'function') {
+			queue = direction;
+			direction = callback;
+			callback = null;
+			if (typeof direction != 'string') {
+				queue = direction;
+				direction = 'right';
+			}
+		};
 
 		// Not sliding and not enqueue, so do nothing
 		if (this.sliding && !queue) return;
@@ -52,7 +63,8 @@ define(function() {
 		if (this.sliding && queue) {
 			var slide = {
 				index: index,
-				callback: callback
+				callback: callback,
+				direction: direction
 			}
 			this.queue.push(slide);
 			return;
@@ -67,10 +79,42 @@ define(function() {
 		}
 
 		this.sliding = true;
-		this.index = index;
 		this.callback = callback;
 
-		var offset = this.width * (0 - index);
+		var offset;
+		// Relocate slides
+		var currentSlide = this.slides[this.index];
+		for (var i = 0; i < this.length; i++) {
+			if (i == this.index) continue;
+
+			var slide = this.slides[i];
+			if (direction == 'right') {
+				if (slide.offset < currentSlide.offset) {
+					slide.offset += this.width * this.length;
+
+					var calculateOffset = slide.offset - this.width * i;
+					slide.style.webkitTransitionDuration = 0;
+					slide.style.webkitTransform = 'translate3D(' + calculateOffset + 'px, 0px, 0px)';
+				}
+			} else if (direction == 'left') {
+				if (slide.offset > currentSlide.offset) {
+					slide.offset -= this.width * this.length;
+
+					var calculateOffset = slide.offset - this.width * i;
+					slide.style.webkitTransitionDuration = 0;
+					slide.style.webkitTransform = 'translate3D(' + calculateOffset + 'px, 0px, 0px)';
+				}
+			}
+			
+		}
+		// Relocate wrap
+		offset =  this.slides[this.index].offset - this.slides[index].offset;
+		
+		offset += this.offset;
+
+		this.offset = offset;
+		this.index = index;
+
 		var style = this.wrap.style;
 		style.webkitTransitionDuration = this.speed + 'ms';
 		style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
@@ -80,12 +124,7 @@ define(function() {
 		// Handling muti-arguments
 		if (typeof callback != 'function') { queue = callback; callback = null };
 
-		var index = this.index;
-		if (queue) {
-			var lastSlide = this.queue[this.queue.length - 1];
-			if (lastSlide) index = lastSlide.index;
-		}
-
+		var index = this.getCurrentIndex(queue);
 		if (index <= 0) {
 			index = this.length - 1;
 		} else {
@@ -98,12 +137,7 @@ define(function() {
 		// Handling muti-arguments
 		if (typeof callback != 'function') { queue = callback; callback = null };
 
-		var index = this.index;
-		if (queue) {
-			var lastSlide = this.queue[this.queue.length - 1];
-			if (lastSlide) index = lastSlide.index;
-		}
-
+		var index = this.getCurrentIndex(queue);
 		if (index >= this.length - 1) {
 			index = 0;
 		} else {
@@ -135,7 +169,6 @@ define(function() {
 							break;
 					  case 'resize':
 					  	that.width = that.container.offsetWidth;
-					  	console.log(that.width);
 					  	that.setup();
 						break;
 				 }
@@ -148,6 +181,15 @@ define(function() {
 	Swipe.prototype.dequeue = function() {
 		 var nextSlide = this.queue.shift();
 		 nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
+	}
+
+	Swipe.prototype.getCurrentIndex = function(queue) {
+		var index = this.index;
+		if (queue) {
+			var lastSlide = this.queue[this.queue.length - 1];
+			if (lastSlide) index = lastSlide.index;
+		};
+		return index;
 	}
 
 	Swipe.prototype.set = function(key, value) {
