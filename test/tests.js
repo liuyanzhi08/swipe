@@ -229,6 +229,11 @@ define(['../src/swipe.js'], function(Swipe) {
         var offset = swipe.width * (0 - swipe.length);
         var style = swipe.wrap.style;
 
+        // swipe.prev(true);
+        // setTimeout(function(){ swipe.prev(true);}, 2000)
+        // setTimeout(function(){ swipe.prev(true);}, 4000)
+        // setTimeout(function(){ swipe.prev(true);}, 6000)
+
         swipe.slideTo(3, 'left', true);
         setTimeout(function(){ swipe.slideTo(0, 'left', true);}, 2000)
         setTimeout(function(){ swipe.slideTo(2, 'left', true);}, 4000)

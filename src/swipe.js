@@ -46,7 +46,7 @@ define(function() {
     // Handling muti-arguments
     if (index > this.length - 1) index = this.length - 1;
     if (index < 0) index = 0;
-    if (typeof callback != 'function') {
+    if (typeof callback != 'function' && callback != null) {
       queue = direction;
       direction = callback;
       callback = null;
@@ -91,7 +91,6 @@ define(function() {
       if (direction == 'right') {
         if (slide.offset < currentSlide.offset) {
           slide.offset += this.width * this.length;
-
           var calculateOffset = slide.offset - this.width * i;
           slide.style.webkitTransitionDuration = 0;
           slide.style.webkitTransform = 'translate3D(' + calculateOffset + 'px, 0px, 0px)';
@@ -99,7 +98,6 @@ define(function() {
       } else if (direction == 'left') {
         if (slide.offset > currentSlide.offset) {
           slide.offset -= this.width * this.length;
-
           var calculateOffset = slide.offset - this.width * i;
           slide.style.webkitTransitionDuration = 0;
           slide.style.webkitTransform = 'translate3D(' + calculateOffset + 'px, 0px, 0px)';
@@ -109,7 +107,6 @@ define(function() {
     }
     // Relocate wrap
     offset =  this.slides[this.index].offset - this.slides[index].offset;
-    
     offset += this.offset;
 
     this.offset = offset;
@@ -130,7 +127,7 @@ define(function() {
     } else {
       index = index - 1;
     }
-    this.slideTo(index, callback, queue);
+    this.slideTo(index, callback, 'left', queue);
   }
 
   Swipe.prototype.next = function(callback, queue) {
@@ -144,7 +141,7 @@ define(function() {
       index = index + 1;
     }
 
-    this.slideTo(index, callback, queue);
+    this.slideTo(index, callback, 'right', queue);
   }
 
   Swipe.prototype.stop = function() {
