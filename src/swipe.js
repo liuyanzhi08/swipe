@@ -7,6 +7,7 @@ define(function() {
     this.width = this.container.offsetWidth;
 
     this.speed = 300;
+    this.threshould = 160;
     this.index = 0;
     this.offset = 0;
     this.classes = {
@@ -150,12 +151,40 @@ define(function() {
 
   Swipe.prototype.bind = function() {
     var that = this;
+    var start, delta;
     this.events = {
       handleEvent: function(e) {
         switch (e.type) {
-            case 'touchstart': ; break;
-            case 'touchmove': ; break;
-            case 'touchend': ; break;
+            case 'touchstart':
+              var touches = e.touches[0];
+              start = {
+                x: touches.pageX,
+                y: touches.pageY,
+              };
+              that.container.addEventListener('touchmove', that.events);
+              that.container.addEventListener('touchend', that.events);
+              break;
+            case 'touchmove':
+              var touches = e.touches[0];
+              delta = {
+                x: touches.pageX - start.x,
+                y: touches.pageY - start.y
+              }
+              that.attempSlide(delta);
+              break;
+            case 'touchend': 
+               if (Math.abs(delta.x) > that.threshould) {
+                if (delta.x > 0) {
+                  that.prev();
+                } else {
+                  that.next();
+                }
+              } else {
+                that.cancelSlide();
+              }
+              that.container.removeEventListener('touchmove', that.events);
+              that.container.removeEventListener('touchend', that.events);
+              break;
             case 'transitionend': 
               that.sliding = false;
               that.nav && that.setNav(); // Set nav
@@ -172,6 +201,7 @@ define(function() {
       }
     }
     this.container.addEventListener('transitionend', this.events);
+    this.container.addEventListener('touchstart', this.events);
     window.addEventListener('resize', this.events);
   }
 
@@ -206,6 +236,21 @@ define(function() {
         this.continuous = true;
         break;
     }
+  }
+
+  Swipe.prototype.attempSlide = function(delta) {
+    if (this.sliding) return;
+
+    var style = this.wrap.style;
+    style.webkitTransitionDuration = '0ms';
+    var offset = this.offset + delta.x;
+    style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
+  }
+
+  Swipe.prototype.cancelSlide = function() {
+    var style = this.wrap.style;
+    style.webkitTransitionDuration = this.speed + 'ms';
+    style.webkitTransform = 'translate3D(' + this.offset + 'px, 0px, 0px)';
   }
 
   Swipe.prototype.createNav = function() {
