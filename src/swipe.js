@@ -1,13 +1,15 @@
 define(function() {
-  function Swipe(container) {
+  function Swipe(container, option) {
+    this.version = '1.0.0';
     this.container = container;
     this.wrap = this.container.children[0];
     this.slides = this.wrap.children;
     this.length = this.slides.length;
     this.width = this.container.offsetWidth;
 
-    this.speed = 300;
-    this.threshould = 160;
+    if (!option) option = {};
+    this.speed = option.speed || 300;
+    this.threshould = option.threshould || 160;
     this.index = 0;
     this.offset = 0;
     this.classes = {
@@ -19,7 +21,7 @@ define(function() {
 
     this.setup(); 
     this.bind();
-    this.set('nav', true);
+    if(option.nav) this.set('nav', true);
   }
 
   Swipe.prototype.setup = function() {
