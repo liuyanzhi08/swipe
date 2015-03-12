@@ -8,8 +8,10 @@ define(function() {
     this.width = this.container.offsetWidth;
 
     if (!option) option = {};
+    this.option = option;
     this.speed = option.speed || 300;
     this.threshould = option.threshould || 160;
+    this.auto = option.auto || 1000;
     this.index = 0;
     this.offset = 0;
     this.classes = {
@@ -21,7 +23,9 @@ define(function() {
 
     this.setup(); 
     this.bind();
-    if(option.nav) this.set('nav', true);
+
+    this.set('nav', option.nav !== false);
+    this.set('auto', option.auto !== 0);
   }
 
   Swipe.prototype.setup = function() {
@@ -166,6 +170,7 @@ define(function() {
               };
               that.container.addEventListener('touchmove', that.events);
               that.container.addEventListener('touchend', that.events);
+              that.autoplay(false);
               break;
             case 'touchmove':
               var touches = e.touches[0];
@@ -187,6 +192,7 @@ define(function() {
               }
               that.container.removeEventListener('touchmove', that.events);
               that.container.removeEventListener('touchend', that.events);
+              that.autoplay(that.option.auto !== 0);
               break;
             case 'transitionend': 
               that.sliding = false;
@@ -235,6 +241,9 @@ define(function() {
           this.nav.style.display = 'none';
         }
         break;
+      case 'auto':
+        this.autoplay(value);
+        break;
     }
   }
 
@@ -271,10 +280,23 @@ define(function() {
     this.nav.children[this.index].classList.add(this.classes.navOn);
   }
 
+  Swipe.prototype.autoplay = function(onOff) {
+    if (this.auto == 0) return;
+
+    clearInterval(this.timer);
+    var that = this;
+    if (onOff) {
+      this.timer = setInterval(function() {
+        that.next();
+      }, this.auto);
+    }
+  }
+
   Swipe.prototype.kill = function() {
     this.container.removeChild(this.nav);
     this.container.removeEventListener('transitionend', this.events);
     this.container.removeEventListener('touchstart', this.events);
   }
+
   return Swipe;
 })

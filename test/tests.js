@@ -1,6 +1,6 @@
 define(['../src/swipe.js'], function(Swipe) {
   describe('Swipe', function(){
-    var container, swipe, wrap, slides, containerWidth, containerHeight, wrapWidth, navItems;
+    var container, swipe, wrap, slides;
     function getTransitionOffset(ele){
         var reg = /translate3d\(([-\d]+)px, 0px, 0px\)/;
         var str = ele.style.webkitTransform;
@@ -12,22 +12,14 @@ define(['../src/swipe.js'], function(Swipe) {
 
     before(function() {
       container = document.getElementById('mySwipe');
-      swipe = new Swipe(container, {
-        speed: 1000,
-        auto: 3000,
-        threshould: 100
-      });
+      swipe = new Swipe(container);
       wrap = swipe.wrap;
       slides = swipe.slides;
-      containerWidth = container.offsetWidth;
-      wrapWidth = wrap.offsetWidth; 
-      swipe.set('nav', 'on');
-      // swipe.set('continuous', 'on');
-      navItems = container.querySelector('.swipe-nav').children;
     })
 
     describe('setup()', function(){
       it('should set the width and height of the slides as the same with the container', function(){
+        var containerWidth = container.offsetWidth;
         for (var i = 0, len = slides.length; i < len; i++) {
           slides[i].offsetWidth.should.equal(containerWidth);
         }
@@ -35,6 +27,7 @@ define(['../src/swipe.js'], function(Swipe) {
 
       it('should set the width of wrap as the sum of all slides', function() {
         var sum = 0;
+        var wrapWidth = wrap.offsetWidth; 
         for (var i = 0, len = slides.length; i < len; i++) {
           sum += slides[i].offsetWidth;
         }
@@ -200,6 +193,7 @@ define(['../src/swipe.js'], function(Swipe) {
 
     describe('nav', function(){
       it('size of nav items should be length of slides', function() {
+        var navItems = container.querySelector('.swipe-nav').children;
         navItems.length.should.equal(swipe.length);
       })
 
@@ -232,14 +226,14 @@ define(['../src/swipe.js'], function(Swipe) {
         window.resizeBy(2, 2);
       })
       it('should reset the width and height of the slides as the same with the container(runs only in IE))', function(){
-        containerWidth = container.offsetWidth;
+        var containerWidth = container.offsetWidth;
         for (var i = 0, len = slides.length; i < len; i++) {
           slides[i].offsetWidth.should.equal(containerWidth);
         }
       })
 
       it('should reset the width of wrap as the sum of all slides(runs only in IE)', function() {
-        wrapWidth = wrap.offsetWidth;
+        var wrapWidth = wrap.offsetWidth;
         var sum = 0;
         for (var i = 0, len = slides.length; i < len; i++) {
           sum += slides[i].offsetWidth;
