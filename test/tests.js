@@ -12,7 +12,7 @@ define(['../src/swipe.js'], function(Swipe) {
 
     before(function() {
       container = document.getElementById('mySwipe');
-      swipe = new Swipe(container);
+      swipe = new Swipe(container, {auto:0});
       wrap = swipe.wrap;
       slides = swipe.slides;
     })
@@ -110,7 +110,7 @@ define(['../src/swipe.js'], function(Swipe) {
         var oldOffset, oldIdex;
         swipe.slideTo(random, function(){
           oldOffset = getTransitionOffset(wrap);
-          oldIdex = swipe.getCurrentIndex();
+          oldIdex = swipe.getIndex();
         }, true);
         
         swipe.slideTo(random, function() {
