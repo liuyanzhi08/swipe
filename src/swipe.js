@@ -19,6 +19,7 @@ define(function() {
 
     this.setup(); 
     this.bind();
+    this.set('nav', true);
   }
 
   Swipe.prototype.setup = function() {
@@ -51,11 +52,11 @@ define(function() {
       queue = direction;
       direction = callback;
       callback = null;
-      if (typeof direction != 'string') {
-        queue = direction;
-        direction = 'right';
-      }
     };
+    if (typeof direction != 'string') {
+      queue = direction;
+      direction = 'right';
+    }
 
     // Not sliding and not enqueue, so do nothing
     if (this.sliding && !queue) return;
@@ -225,15 +226,12 @@ define(function() {
         if (!this.nav) {
           this.createNav();
         } 
-        if (value == 'on') {
+        if (value == true) {
           this.nav.style.display = 'block';
           this.setNav();
         } else {
           this.nav.style.display = 'none';
         }
-        break;
-      case 'continuous':
-        this.continuous = true;
         break;
     }
   }
