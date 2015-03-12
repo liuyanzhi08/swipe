@@ -151,7 +151,7 @@ define(function() {
 
   Swipe.prototype.bind = function() {
     var that = this;
-    var start, delta;
+    var start, delta = {x: 0, y: 0};
     this.events = {
       handleEvent: function(e) {
         switch (e.type) {
@@ -274,6 +274,7 @@ define(function() {
   Swipe.prototype.kill = function() {
     this.container.removeChild(this.nav);
     this.container.removeEventListener('transitionend', this.events);
+    this.container.removeEventListener('touchstart', this.events);
   }
   return Swipe;
 })
