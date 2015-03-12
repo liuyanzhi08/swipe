@@ -53,7 +53,8 @@ Swipe can take an optional second parameter– an object of key/value settings:
 
 -	**threshould** Integer *(default:160)* - touch effect threshould.
 
-- **auto** Integer - begin with auto slideshow (time in milliseconds between slides)
+- **auto** Integer *(default:1000, set 0 to turn off)* - begin with auto slideshow (time in milliseconds between slides)
+- **nav** Integer *(default:true)* - if or not show nav
 
 ### Example
 
@@ -62,7 +63,8 @@ Swipe can take an optional second parameter– an object of key/value settings:
 var swipe = new Swipe(document.getElementById('mySwipe'), {
   speed: 400,
   auto: 3000,
-  threshould: 100
+  threshould: 100,
+  nav: false
 });
 
 ```
@@ -71,28 +73,21 @@ var swipe = new Swipe(document.getElementById('mySwipe'), {
 
 Swipe exposes a few functions that can be useful for script control of your slider.
 
-`prev()` slide to prev
+`prev(callback, queue)` slide to prev (callback: callback after transition finishes, queque: if or not to put in transition queque)
 
-`next()` slide to next
+`next(callback, queue)` slide to next (callback: callback after transition finishes, queque: if or not to put in transition queque)
 
-`getPos()` returns current slide index position
+`getIndex(queue)` returns current slide index (queque: true to get the last index in queue)
 
-`getNumSlides()` returns the total amount of slides
+`getLength()` returns the total amount of slides
 
-`slide(index, duration)` slide to set index position (duration: speed of transition in milliseconds)
+`slide(index, callback, direction, queue)` slide to index  (index: target index, callback: callback after transition finishes, direction: 'left' or 'right', queque: if or not to put in transition queque,)
 
 ## Browser Support
-Swipe is now compatible with all browsers, including IE7+. Swipe works best on devices that support CSS transforms and touch, but can be used without these as well. A few helper methods determine touch and CSS transition support and choose the proper animation methods accordingly.
+Swipe is now compatible with all morden webkit browsers
 
 ## Who's using Swipe
-<img src='http://swipejs.com/assets/swipe-cnn.png' width='170'>
-<img src='http://swipejs.com/assets/swipe-airbnb.png' width='170'>
-<img src='http://swipejs.com/assets/swipe-nhl.png' width='170'>
-<img src='http://swipejs.com/assets/swipe-htc.png' width='170'>
-<img src='http://swipejs.com/assets/swipe-thinkgeek.png' width='170'>
-<img src='http://swipejs.com/assets/swipe-snapguide.png' width='170'>
-
-Shoot me a [note](mailto:brad@birdsall.co) if you want your logo here
+Shoot me a [note](mailto:702368372atqqcom) if you want your logo here
 
 ## License
 Copyright (c) 2015 Brad Birdsall Licensed under the [The MIT License (MIT)](http://opensource.org/licenses/MIT).

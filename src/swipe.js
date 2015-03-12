@@ -1,6 +1,5 @@
 define(function() {
   function Swipe(container, option) {
-    this.version = '1.0.0';
     this.container = container;
     this.wrap = this.container.children[0];
     this.slides = this.wrap.children;
@@ -129,7 +128,7 @@ define(function() {
     // Handling muti-arguments
     if (typeof callback != 'function') { queue = callback; callback = null };
 
-    var index = this.getCurrentIndex(queue);
+    var index = this.getIndex(queue);
     if (index <= 0) {
       index = this.length - 1;
     } else {
@@ -142,7 +141,7 @@ define(function() {
     // Handling muti-arguments
     if (typeof callback != 'function') { queue = callback; callback = null };
 
-    var index = this.getCurrentIndex(queue);
+    var index = this.getIndex(queue);
     if (index >= this.length - 1) {
       index = 0;
     } else {
@@ -219,7 +218,7 @@ define(function() {
      nextSlide && this.slideTo(nextSlide.index, nextSlide.callback);
   }
 
-  Swipe.prototype.getCurrentIndex = function(queue) {
+  Swipe.prototype.getIndex = function(queue) {
     var index = this.index;
     if (queue) {
       var lastSlide = this.queue[this.queue.length - 1];
@@ -280,6 +279,10 @@ define(function() {
     this.nav.children[this.index].classList.add(this.classes.navOn);
   }
 
+  Swipe.getLength = function() {
+    return this.length;
+  }
+
   Swipe.prototype.autoplay = function(onOff) {
     if (this.auto == 0) return;
 
@@ -298,5 +301,6 @@ define(function() {
     this.container.removeEventListener('touchstart', this.events);
   }
 
+  Swipe.v = Swipe.version = '1.0.0';
   return Swipe;
 })
