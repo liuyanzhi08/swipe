@@ -1,3 +1,12 @@
+/*
+ * Swipe 1.0.0
+ *
+ * Liu Yanzhi
+ * 702368372atqqcom
+ * Copyright 2015, MIT License
+ * 
+ * Thanks to: https://github.com/thebird
+ */
 define(function() {
   function Swipe(container, option) {
     this.container = container;
