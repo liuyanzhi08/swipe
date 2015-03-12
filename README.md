@@ -2,7 +2,8 @@ Hello swipe
 =========
 **swipe** is a accurate touch slider for mordern browser.
 
-[Try a demo.](http://7li.github.io/components/swipe/test/)
+[Try a demo.](http://7li.github.io/components/swipe/)
+[Run tests.](http://7li.github.io/components/swipe/test/)
 
 ## Usage
 Dom structure:
@@ -53,8 +54,8 @@ Swipe can take an optional second parameter– an object of key/value settings:
 
 -	**threshould** Integer *(default:160)* - touch effect threshould.
 
-- **auto** Integer *(default:1000, set 0 to turn off)* - begin with auto slideshow (time in milliseconds between slides)
-- **nav** Integer *(default:true)* - if or not show nav
+- **auto** Integer *(default:2000, set 0 to turn off)* - begin with auto slideshow (time in milliseconds between slides)
+- **nav** Boolean *(default:true)* - if or not show nav
 
 ### Example
 
@@ -90,4 +91,4 @@ Swipe is now compatible with all morden webkit browsers
 Shoot me a [note](mailto:702368372atqqcom) if you want your logo here
 
 ## License
-Copyright (c) 2015 Brad Birdsall Licensed under the [The MIT License (MIT)](http://opensource.org/licenses/MIT).
+Copyright (c) 2015 lyz Licensed under the [The MIT License (MIT)](http://opensource.org/licenses/MIT).

@@ -10,7 +10,7 @@ define(function() {
     this.option = option;
     this.speed = option.speed || 300;
     this.threshould = option.threshould || 160;
-    this.auto = option.auto || 1000;
+    this.auto = option.auto || 2000;
     this.index = 0;
     this.offset = 0;
     this.classes = {
