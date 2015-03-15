@@ -43,7 +43,7 @@ define(function() {
 
     // Set wrap
     this.wrap.style.position = 'relative';
-    this.wrap.style.overflow = 'visible';
+    this.wrap.style.overflow = '';
     this.wrap.style.height = 'auto';
     this.wrap.style.width = '999999999999999px';
 
