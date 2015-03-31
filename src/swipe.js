@@ -92,7 +92,6 @@ define(function() {
 
     // Not sliding, so enforce slide
     if (index == this.index) {
-      console.log('t');
       // Current index, no need to transition, immediately trigger callback
       callback && callback();
       this.nav && this.setNav();
@@ -106,6 +105,20 @@ define(function() {
 
     var offset;
     // Relocate slides
+    this.relocateSlides(direction);
+    // Relocate wrap
+    offset =  this.slides[this.index].offset - this.slides[index].offset;
+    offset += this.offset;
+
+    this.offset = offset;
+    this.index = index;
+
+    var style = this.wrap.style;
+    style.webkitTransitionDuration = this.speed + 'ms';
+    style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
+  }
+
+  Swipe.prototype.relocateSlides = function(direction) {
     var currentSlide = this.slides[this.index];
     for (var i = 0; i < this.length; i++) {
       if (i == this.index) continue;
@@ -126,18 +139,7 @@ define(function() {
           slide.style.webkitTransform = 'translate3D(' + calculateOffset + 'px, 0px, 0px)';
         }
       }
-      
     }
-    // Relocate wrap
-    offset =  this.slides[this.index].offset - this.slides[index].offset;
-    offset += this.offset;
-
-    this.offset = offset;
-    this.index = index;
-
-    var style = this.wrap.style;
-    style.webkitTransitionDuration = this.speed + 'ms';
-    style.webkitTransform = 'translate3D(' + offset + 'px, 0px, 0px)';
   }
 
   Swipe.prototype.prev = function(callback, queue) {
@@ -196,6 +198,8 @@ define(function() {
                 x: touches.pageX - start.x,
                 y: touches.pageY - start.y
               }
+              var direction = delta.x > 0 ? 'left' : 'right';
+              that.relocateSlides(direction);
               that.attempSlide(delta);
               break;
             case 'touchend': 
