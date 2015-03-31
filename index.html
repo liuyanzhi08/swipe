@@ -23,6 +23,8 @@
         width: 100%;
         height: 185px;
         overflow: hidden;
+        width: 999999px;
+        /*-webkit-transform:translate3D(-1300px, 0px, 0px);*/
       }
       .swipe-wrap div {
         background: yellow;
@@ -30,6 +32,7 @@
         float: left;
         width: 100%;
         height: 215px;
+        /*width: 300px;*/
       }
       .swipe-wrap div img {
         max-width: 100%;
@@ -55,28 +58,29 @@
   </head>
   <body>
     <div id='mySwipe'>
-      <div class='swipe-wrap' style= "-webkit-transform: translate3D(-210px, 0, 0);">
-        <div style= "-webkit-transform: translate3d(0, 0, 0);">
+      <div class='swipe-wrap'>
+        <div>
           <a href="http://hao123.com">
           <img src="http://img03.sogoucdn.com/app/a/100540012/2f42490f7eea89d21432399d5e3526ec.jpeg" alt="">
           </a>
         </div>
-        <div style= "-webkit-transform: translate3d(4932px, 0px, 0px);">
+        <div>
           <img src="http://img03.sogoucdn.com/app/a/100540012/55de74553739d7b09856f32f8fb1a612.jpg" alt="">
         </div>
-        <div style= "-webkit-transform: translate3d(4932px, 0px, 0px);">
+        <div>
           <img src="http://download.zhushou.sogou.com/focusimage/00/ab/00abf2aa5be3c34855f5ed65bb27a9e3.jpg" alt="">
         </div>
-        <div style= "-webkit-transform: translate3d(4932px, 0px, 0px);">
+        <div>
           <img src="http://download.zhushou.sogou.com/focusimage/60/4f/604f2ceafc0664e1965c550b2e3f26b3.jpg" alt="">
         </div>
       </div>
+      <div id="test"></div>
     </div>
     <script src="bower_components/requirejs/require.js"></script>
     <script type="text/javascript">
       require(['src/swipe'], function(Swipe) {
         var container = document.getElementById('mySwipe');
-        var swipe = new Swipe(container);
+        var swipe = new Swipe(container, {auto: 2000});
       });
     </script>
   </body>
