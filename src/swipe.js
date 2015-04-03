@@ -23,8 +23,8 @@ define(function() {
     this.speed = option.speed || 300;
     this.threshould = option.threshould || 90;
     this.auto = option.auto || 2000;
-    this.index;
-    this.offset;
+    this.index = 0;
+    this.offset = 0;
     this.classes = {
       nav: 'swipe-nav',
       navItem: 'swipe-nav-item',
@@ -41,8 +41,6 @@ define(function() {
 
   Swipe.prototype.setup = function() {
     this.width = this.container.offsetWidth;
-    this.index = 0;
-    this.offset = 0;
 
     // Set container
     this.container.style.overflow = 'hidden';
@@ -247,9 +245,17 @@ define(function() {
 
   Swipe.prototype.resize = function() {
     var oldIndex = this.index;
-    console.log(oldIndex);
+    // console.log(oldIndex);
+    // this.setup();
+    // this.slideTo(oldIndex);
     this.setup();
-    this.slideTo(oldIndex);
+    this.relocateSlides('right');
+    // Relocate wrap
+    this.offset =  -this.slides[this.index].offset;
+
+    var style = this.wrap.style;
+    style.webkitTransitionDuration = '0ms';
+    style.webkitTransform = 'translate3D(' + this.offset + 'px, 0px, 0px)';
   }
 
   Swipe.prototype.dequeue = function() {
