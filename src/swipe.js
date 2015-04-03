@@ -50,7 +50,7 @@ define(function() {
     this.wrap.style.position = 'relative';
     this.wrap.style.overflow = 'visible';
     this.wrap.style.height = 'auto';
-    this.wrap.style.width = '99999999px';
+    // this.wrap.style.width = '99999999px';
     this.wrap.style.webkitTransform = '';
 
     // Set slides   
@@ -177,7 +177,7 @@ define(function() {
 
   Swipe.prototype.bind = function() {
     var that = this;
-    var start, delta = {x: 0, y: 0};
+    var start, delta;
     this.events = {
       handleEvent: function(e) {
         switch (e.type) {
@@ -187,6 +187,7 @@ define(function() {
                 x: touches.pageX,
                 y: touches.pageY,
               };
+              delta = {x: 0, y: 0};
               that.container.addEventListener('touchmove', that.events);
               that.wrap.addEventListener('touchend', that.events);
               that.autoplay(false);
@@ -205,8 +206,7 @@ define(function() {
               that.attempSlide(delta);
               break;
             case 'touchend': 
-
-               if (Math.abs(delta.x) > that.threshould) {
+              if (Math.abs(delta.x) > that.threshould) {
                 if (delta.x > 0) {
                   that.prev();
                 } else {

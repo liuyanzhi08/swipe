@@ -13,9 +13,7 @@
       body {
         padding: 0;
         overflow: scroll;
-      }
-      .test {
-        margin-top: 50px; 
+        background: #eee;
       }
       #mySwipe {
         width: 100%;
@@ -26,6 +24,8 @@
         width: 100%;
         height: 185px;
         overflow: hidden;
+        width: 999999px;
+        /*-webkit-transform:translate3D(-1300px, 0px, 0px);*/
       }
       .swipe-wrap div {
         background: yellow;
@@ -33,6 +33,7 @@
         float: left;
         width: 100%;
         height: 215px;
+        /*width: 300px;*/
       }
       .swipe-wrap div img {
         max-width: 100%;
@@ -57,28 +58,27 @@
     </style>
   </head>
   <body>
-    <div class="test">
-
-      <div id='mySwipe'>
-        <div class='swipe-wrap'>
-          <div>
-            <a href="http://hao123.com">
-            <img src="http://img03.sogoucdn.com/app/a/100540012/2f42490f7eea89d21432399d5e3526ec.jpeg" alt="">
-            </a>
-          </div>
-          <div>
-            <img src="http://img03.sogoucdn.com/app/a/100540012/55de74553739d7b09856f32f8fb1a612.jpg" alt="">
-          </div>
-          <div>
-            <img src="http://download.zhushou.sogou.com/focusimage/00/ab/00abf2aa5be3c34855f5ed65bb27a9e3.jpg" alt="">
-          </div>
-          <div>
-            <img src="http://download.zhushou.sogou.com/focusimage/60/4f/604f2ceafc0664e1965c550b2e3f26b3.jpg" alt="">
-          </div>
+    <div id='mySwipe'>
+      <div class='swipe-wrap' style="-webkit-transform:translate3D(-100px,0,0)">
+        <div style="width:320px;-webkit-transform:translate3D(100px,0,0)">
+          <a href="http://hao123.com">
+          <img src="http://img03.sogoucdn.com/app/a/100540012/2f42490f7eea89d21432399d5e3526ec.jpeg" alt="">
+          </a>
+        </div>
+        <div style="width:320px;">
+          <img src="http://img03.sogoucdn.com/app/a/100540012/55de74553739d7b09856f32f8fb1a612.jpg" alt="">
+        </div>
+        <div style="width:320px;">
+          <img src="http://download.zhushou.sogou.com/focusimage/00/ab/00abf2aa5be3c34855f5ed65bb27a9e3.jpg" alt="">
+        </div>
+        <div style="width:320px;">
+          <img src="http://download.zhushou.sogou.com/focusimage/60/4f/604f2ceafc0664e1965c550b2e3f26b3.jpg" alt="">
         </div>
       </div>
+      <div id="test"></div>
     </div>
     <div id="mocha"></div>
     <script src="../bower_components/requirejs/require.js" data-main="SpecRunner.js"></script>
+    </script>
   </body>
 </html>

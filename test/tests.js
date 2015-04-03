@@ -24,16 +24,6 @@ define(['../src/swipe.js'], function(Swipe) {
           slides[i].offsetWidth.should.equal(containerWidth);
         }
       })
-
-      it('should set the width of wrap as the sum of all slides', function() {
-        var sum = 0;
-        var wrapWidth = wrap.offsetWidth; 
-        for (var i = 0, len = slides.length; i < len; i++) {
-          sum += slides[i].offsetWidth;
-        }
-        (wrapWidth - sum > 0 ).should.equal(true);
-      })
-
     })
 
     describe('queue', function(){
