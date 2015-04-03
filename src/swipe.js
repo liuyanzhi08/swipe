@@ -102,7 +102,6 @@ define(function() {
       return;
     }
 
-    console.log('index:' + index);
     this.sliding = true;
     this.callback = callback;
 
@@ -244,15 +243,10 @@ define(function() {
   }
 
   Swipe.prototype.resize = function() {
-    var oldIndex = this.index;
-    // console.log(oldIndex);
-    // this.setup();
-    // this.slideTo(oldIndex);
     this.setup();
     this.relocateSlides('right');
     // Relocate wrap
     this.offset =  -this.slides[this.index].offset;
-
     var style = this.wrap.style;
     style.webkitTransitionDuration = '0ms';
     style.webkitTransform = 'translate3D(' + this.offset + 'px, 0px, 0px)';
