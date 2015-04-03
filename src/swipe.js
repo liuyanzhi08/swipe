@@ -17,15 +17,14 @@ define(function() {
     this.wrap = this.container.children[0];
     this.slides = this.wrap.children;
     this.length = this.slides.length;
-    this.width = this.container.offsetWidth;
 
     if (!option) option = {};
     this.option = option;
     this.speed = option.speed || 300;
     this.threshould = option.threshould || 90;
     this.auto = option.auto || 2000;
-    this.index = 0;
-    this.offset = 0;
+    this.index;
+    this.offset;
     this.classes = {
       nav: 'swipe-nav',
       navItem: 'swipe-nav-item',
@@ -41,6 +40,10 @@ define(function() {
   }
 
   Swipe.prototype.setup = function() {
+    this.width = this.container.offsetWidth;
+    this.index = 0;
+    this.offset = 0;
+
     // Set container
     this.container.style.overflow = 'hidden';
     this.container.style.position = 'relative';
@@ -50,6 +53,7 @@ define(function() {
     this.wrap.style.overflow = 'visible';
     this.wrap.style.height = 'auto';
     this.wrap.style.width = '99999999px';
+    this.wrap.style.webkitTransform = '';
 
     // Set slides   
     for(var i = 0; i < this.length; i++) {
@@ -57,8 +61,9 @@ define(function() {
       slide.style.position = 'relative';
       slide.style.float = 'left';
       slide.style.height = 'auto';
-      this.slides[i].style.width = this.width + 'px';
-      this.slides[i].offset = i * this.width;
+      slide.style.width = this.width + 'px';
+      slide.offset = i * this.width;
+      slide.style.webkitTransform = '';
     }
   }
 
@@ -229,8 +234,7 @@ define(function() {
               that.dequeue();
               break;
             case 'resize':
-              that.width = that.container.offsetWidth;
-              that.setup();
+              that.resize();
             break;
          }
       }
@@ -239,6 +243,13 @@ define(function() {
     this.container.addEventListener('webkitTransitionEnd', this.events, false);
     this.container.addEventListener('touchstart', this.events);
     window.addEventListener('resize', this.events);
+  }
+
+  Swipe.prototype.resize = function() {
+    var oldIndex = this.index;
+    console.log(oldIndex);
+    this.setup();
+    this.slideTo(oldIndex);
   }
 
   Swipe.prototype.dequeue = function() {
