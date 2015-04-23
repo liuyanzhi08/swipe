@@ -12,9 +12,9 @@ Dom structure:
 <div id='mySwipe'>
   <div class='swipe-wrap'>
     <div></div>
-		<div></div>
-		<div></div>
-		<div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </div>
 ```
