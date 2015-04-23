@@ -82,7 +82,7 @@ Swipe exposes a few functions that can be useful for script control of your slid
 
 `getLength()` returns the total amount of slides
 
-`slide(index, callback, direction, queue)` slide to index  (index: target index, callback: callback after transition finishes, direction: 'left' or 'right', queque: if or not to put in transition queque,)
+`slideTo(index, callback, direction, queue)` slide to index  (index: target index, callback: callback after transition finishes, direction: 'left' or 'right', queque: if or not to put in transition queque,)
 
 ## Browser Support
 Swipe is now compatible with all morden webkit browsers
