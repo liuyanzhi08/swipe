@@ -32,17 +32,41 @@ Some suggested init css example:
   width: 100%;
   margin: 0 auto;
 }
+
 .swipe-wrap {
-  width: 100%;
+  width: 9999999px;
   height: 185px;
   overflow: hidden;
 }
+
 .swipe-wrap div {
-  background: yellow;
   text-align: center;
   float: left;
   width: 100%;
-  height: 215px;
+}
+
+.swipe-wrap div img {
+  max-width: 100%;
+}
+
+.swipe-nav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.swipe-nav-item {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background: white;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.swipe-nav-item-on {
+  background: red;
 }
 ```
 
