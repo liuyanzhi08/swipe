@@ -2,8 +2,8 @@ Hello swipe
 =========
 **swipe** is a accurate touch slider for mordern browser.
 
-[Try a demo.](http://7li.github.io/components/swipe/) or 
-[Run tests.](http://7li.github.io/components/swipe/test/)
+[Try a demo.](http://liuyanzhi08.github.io/components/swipe/) or 
+[Run tests.](http://liuyanzhi08.github.io/components/swipe/test/)
 
 ## Usage
 Dom structure:
