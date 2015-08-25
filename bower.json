@@ -1,0 +1,28 @@
+{
+  "name": "swipe",
+  "version": "0.0.1",
+  "homepage": "https://github.com/7LI/swipe",
+  "authors": [
+    "lyz <702368372@qq.com>"
+  ],
+  "description": "Accurate touch slider for mordern browser",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "swipe"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mocha": "~2.1.0",
+    "should.js": "visionmedia/should.js#~3.3.1",
+    "requirejs": "~2.1.16"
+  }
+}

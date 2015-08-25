@@ -4,6 +4,7 @@
     <title>Swipe tests using Mocha</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
     <style>
       * {
         -webkit-overflow-scrolling: touch;
@@ -76,15 +77,8 @@
       </div>
       <div id="test"></div>
     </div>
-    <script src="bower_components/requirejs/require.js"></script>
-    <script type="text/javascript">
-      require(['src/swipe'], function(Swipe) {
-        var container = document.getElementById('mySwipe');
-        var swipe = new Swipe(container, {auto: 2000});
-        // setTimeout(function(){
-        //   swipe.slideTo(3);
-        // }, 1000)
-      });
+    <div id="mocha"></div>
+    <script src="../bower_components/requirejs/require.js" data-main="SpecRunner.js"></script>
     </script>
   </body>
 </html>
